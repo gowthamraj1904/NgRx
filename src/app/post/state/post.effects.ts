@@ -1,23 +1,37 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { PostService } from '../post.service';
-import { loadPosts, loadPostSuccess } from './post.actions';
 import { mergeMap, map } from 'rxjs/operators';
 import { Post } from './post.model';
+import { PostActionTypes } from './post.action-types';
 
 @Injectable()
 export class PostEffects {
     constructor(private actions$: Actions, private postService: PostService) {}
 
-    loadPost$ = createEffect(() => this.loadPost);
+    load$ = createEffect(() => this.load);
+    addNew$ = createEffect(() => this.addNew);
 
-    loadPost(): Actions {
+    load(): Actions {
         return this.actions$.pipe(
-            ofType(loadPosts),
+            ofType(PostActionTypes.loadPosts),
             mergeMap(() => {
                 return this.postService.getPosts().pipe(
                     map((posts: Post[]) => {
-                        return loadPostSuccess({ posts });
+                        return PostActionTypes.loadPostSuccess({ posts });
+                    })
+                );
+            })
+        );
+    }
+
+    addNew(): Actions {
+        return this.actions$.pipe(
+            ofType(PostActionTypes.addNewPost),
+            mergeMap((action) => {
+                return this.postService.addNew(action.post).pipe(
+                    map((post) => {
+                        return PostActionTypes.addNewSuccess({ post });
                     })
                 );
             })

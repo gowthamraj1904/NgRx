@@ -9,7 +9,6 @@ import { AppState } from 'src/app/state/app.model';
 import { AuthResponse } from '../auth-response.model';
 import { AuthService } from '../auth.service';
 import { AuthActionTypes } from './auth.action-types';
-import { autoLogin, autoLogout, loginFail, loginSuccess, signupSuccess } from './auth.actions';
 
 @Injectable()
 export class AuthEffects {
@@ -42,12 +41,12 @@ export class AuthEffects {
                         if (data.status === 'success') {
                             this.store.dispatch(SharedActionsType.setErrorMessage({ errorMessage: '' }));
                             this.authService.setUserInLocalStorage(user);
-                            return loginSuccess({ user, redirect: true });
+                            return AuthActionTypes.loginSuccess({ user, redirect: true });
                         } else {
                             this.store.dispatch(
                                 SharedActionsType.setErrorMessage({ errorMessage: 'Invalid Username or Password' })
                             );
-                            return loginFail();
+                            return AuthActionTypes.loginFail();
                         }
                     }),
                     catchError((errorResponse: HttpErrorResponse) => {
@@ -62,7 +61,7 @@ export class AuthEffects {
 
     loginRedirect(): Actions {
         return this.action$.pipe(
-            ofType(...[loginSuccess, signupSuccess]),
+            ofType(...[AuthActionTypes.loginSuccess, AuthActionTypes.signupSuccess]),
             tap((action) => {
                 if (action.redirect) {
                     this.router.navigate(['/home']);
@@ -82,7 +81,7 @@ export class AuthEffects {
                         this.store.dispatch(SharedActionsType.setLoadingSpinner({ showLoading: false }));
 
                         this.authService.setUserInLocalStorage(user);
-                        return signupSuccess({ user, redirect: true });
+                        return AuthActionTypes.signupSuccess({ user, redirect: true });
                     }),
                     catchError((errorResponse: HttpErrorResponse) => {
                         this.store.dispatch(SharedActionsType.setLoadingSpinner({ showLoading: false }));
@@ -96,7 +95,7 @@ export class AuthEffects {
 
     signupRedirect(): Actions {
         return this.action$.pipe(
-            ofType(signupSuccess),
+            ofType(AuthActionTypes.signupSuccess),
             tap((action) => {
                 if (action.redirect) {
                     this.router.navigate(['/']);
@@ -107,18 +106,20 @@ export class AuthEffects {
 
     autoLogin(): Actions {
         return this.action$.pipe(
-            ofType(autoLogin),
+            ofType(AuthActionTypes.autoLogin),
             mergeMap(() => {
                 const user = this.authService.getUserFromLocalStorage() as AuthResponse;
 
-                return of(user ? loginSuccess({ user, redirect: false }) : autoLogout());
+                return of(
+                    user ? AuthActionTypes.loginSuccess({ user, redirect: false }) : AuthActionTypes.autoLogout()
+                );
             })
         );
     }
 
     autoLogout(): Actions {
         return this.action$.pipe(
-            ofType(autoLogout),
+            ofType(AuthActionTypes.autoLogout),
             tap(() => {
                 this.authService.logout();
                 this.router.navigate(['/auth/login']);

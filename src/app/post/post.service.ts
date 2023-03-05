@@ -12,4 +12,10 @@ export class PostService {
     getPosts(): Observable<Post[]> {
         return this.httpClient.get<Post[]>('http://localhost:3000/posts');
     }
+
+    addNew(post: Post): Observable<any> {
+        return this.httpClient.post<any>('http://localhost:3000/posts', post, {
+            headers: { 'Content-Type': 'application/json' }
+        });
+    }
 }

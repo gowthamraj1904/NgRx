@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { SharedActionsType } from 'src/app/shared/state/shared.action-type';
-import { signupStart } from '../state/auth.actions';
+import { AuthActionTypes } from '../state/auth.action-types';
 import { Auth } from '../state/auth.model';
 
 @Component({
@@ -21,7 +21,7 @@ export class SignupComponent {
         }
 
         this.store.dispatch(SharedActionsType.setLoadingSpinner({ showLoading: true }));
-        this.store.dispatch(signupStart(this.signupForm.value));
+        this.store.dispatch(AuthActionTypes.signupStart(this.signupForm.value));
     }
 
     ngOnInit(): void {

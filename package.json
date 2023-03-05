@@ -9,7 +9,7 @@
         "test": "ng test",
         "npm-install": "npm install",
         "eslint": "eslint ./ --ext .ts --max-warnings 0",
-        "local-server": "json-server --watch E:\\Projects\\Practice\\local-server\\counter-ngrx.json"
+        "local-server": "json-server --watch E:\\Projects\\Practice\\NgRx\\src\\server\\mock-response.json"
     },
     "private": true,
     "dependencies": {
