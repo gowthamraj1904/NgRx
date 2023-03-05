@@ -7,7 +7,7 @@ const _postReducer = createReducer(
     initialState,
     on(PostActionTypes.addNewPost, (state: PostState, action) => {
         const post = { ...action.post };
-        post.id = state.posts.length + 1;
+        post.id = state.posts?.length + 1;
 
         return {
             ...state,
@@ -15,7 +15,7 @@ const _postReducer = createReducer(
         };
     }),
     on(PostActionTypes.updatePost, (state: PostState, action) => {
-        const post = state.posts.map((post: Post) => (action.post.id === post.id ? action.post : post));
+        const post = state.posts?.map((post: Post) => (action.post.id === post.id ? action.post : post));
 
         return {
             ...state,
@@ -23,11 +23,17 @@ const _postReducer = createReducer(
         };
     }),
     on(PostActionTypes.deletePost, (state: PostState, action) => {
-        const posts = state.posts.filter((post: Post) => action.post.id !== post.id);
+        const posts = state.posts?.filter((post: Post) => action.post.id !== post.id);
 
         return {
             ...state,
             posts: posts
+        };
+    }),
+    on(PostActionTypes.loadPostSuccess, (state: PostState, action: { posts: Post[] }) => {
+        return {
+            ...state,
+            posts: action.posts
         };
     })
 );

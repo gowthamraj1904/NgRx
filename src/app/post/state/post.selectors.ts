@@ -6,4 +6,4 @@ const getPostsState = createFeatureSelector<PostState>(POST_STATE_NAME);
 
 export const getPosts = createSelector(getPostsState, (state: PostState) => state.posts);
 export const getPostById = (props: number) =>
-    createSelector(getPostsState, (state: PostState) => state.posts.find((post: Post) => post.id === props));
+    createSelector(getPostsState, (state: PostState) => state.posts?.find((post: Post) => post.id === props));
