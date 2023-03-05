@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { autoLogin } from './auth/state/auth.actions';
+import { AuthActionTypes } from './auth/state/auth.action-types';
 import { getErrorMessage, getLoading } from './shared/state/shared.selector';
 import { AppState } from './state/app.model';
 
@@ -20,6 +20,6 @@ export class AppComponent implements OnInit {
         this.showLoading = this.store.select(getLoading);
         this.errorMessage = this.store.select(getErrorMessage);
 
-        this.store.dispatch(autoLogin());
+        this.store.dispatch(AuthActionTypes.autoLogin());
     }
 }

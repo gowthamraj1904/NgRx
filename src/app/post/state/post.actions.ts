@@ -1,16 +1,18 @@
 import { createAction, props } from '@ngrx/store';
 import { Post } from './post.model';
 
-export enum PostAction {
-    addNewPost = '[Post Page] Add New',
-    updatePost = '[Post Page] Update',
-    deletePost = '[Post Page] Delete',
-    loadPosts = '[Post Page] Load Posts',
-    loadPostSuccess = '[Post Page] Load Post Success'
+enum PostAction {
+    addNew = '[Post Page] Add New',
+    update = '[Post Page] Update',
+    delete= '[Post Page] Delete',
+    load = '[Post Page] Load Posts',
+    loadSuccess = '[Post Page] Load Post Success',
+    addNewSuccess= '[Post Page] Add New Post Success'
 }
 
-export const addNewPost = createAction(PostAction.addNewPost, props<{ post: Post }>());
-export const updatePost = createAction(PostAction.updatePost, props<{ post: Post }>());
-export const deletePost = createAction(PostAction.deletePost, props<{ post: Post }>());
-export const loadPosts = createAction(PostAction.loadPosts);
-export const loadPostSuccess = createAction(PostAction.loadPostSuccess, props<{ posts: Array<Post> }>());
+export const addNewPost = createAction(PostAction.addNew, props<{ post: Post }>());
+export const updatePost = createAction(PostAction.update, props<{ post: Post }>());
+export const deletePost = createAction(PostAction.delete, props<{ post: Post }>());
+export const loadPosts = createAction(PostAction.load);
+export const loadPostSuccess = createAction(PostAction.loadSuccess, props<{ posts: Array<Post> }>());
+export const addNewSuccess = createAction(PostAction.addNewSuccess, props<{ post: Post }>());

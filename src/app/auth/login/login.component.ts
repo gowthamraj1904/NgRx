@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/state/app.model';
-import { loginStart } from '../state/auth.actions';
+import { AuthActionTypes } from '../state/auth.action-types';
 
 @Component({
     selector: 'app-login',
@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
             return;
         }
 
-        this.store.dispatch(loginStart(this.loginForm.value));
+        this.store.dispatch(AuthActionTypes.loginStart(this.loginForm.value));
     }
 
     ngOnInit(): void {
