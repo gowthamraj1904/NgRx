@@ -1,0 +1,7 @@
+{
+    "editor.linkedEditing": true,
+    "cSpell.enableFiletypes": [
+        "diff",
+        "powershell"
+    ]
+}
