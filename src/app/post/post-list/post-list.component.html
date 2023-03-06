@@ -23,6 +23,7 @@
                     <td>
                         <button class="btn btn-primary btn-sm mx-2" [routerLink]="['edit', post.id]">Update</button>
                         <button class="btn btn-danger btn-sm mx-2" (click)="onDelete(post)">Delete</button>
+                        <button class="btn btn-info btn-sm mx-2" [routerLink]="['details', post.id]">Details</button>
                     </td>
                 </tr>
             </tbody>

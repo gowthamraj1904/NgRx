@@ -19,7 +19,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
     postSubscription: Subscription;
     routeSubscription: Subscription;
 
-    constructor(private store: Store<AppState>, private route: ActivatedRoute, private router: Router) {}
+    constructor(private store: Store<AppState>) {}
 
     onUpdatePost(): void {
         if (this.updatePostForm.invalid) {
@@ -30,26 +30,42 @@ export class EditPostComponent implements OnInit, OnDestroy {
         post.id = this.post?.id;
 
         this.store.dispatch(PostActionTypes.updatePost({ post }));
-        this.router.navigate(['post']);
     }
 
     createForm(): void {
         this.updatePostForm = new FormGroup({
-            title: new FormControl(this.post?.title, [Validators.required, Validators.minLength(5)]),
-            description: new FormControl(this.post?.description, [Validators.required, Validators.minLength(10)])
+            title: new FormControl(null, [Validators.required, Validators.minLength(5)]),
+            description: new FormControl(null, [Validators.required, Validators.minLength(10)])
+        });
+    }
+
+    getPostById(): void {
+        this.postSubscription = this.store.select(getPostById).subscribe((post) => {
+            if (post) {
+                this.post = post;
+
+                this.updatePostForm.patchValue({
+                    title: post?.title,
+                    description: post?.description,
+                    id: post?.id
+                });
+            }
         });
     }
 
     ngOnInit(): void {
-        this.routeSubscription = this.route.paramMap.subscribe((params) => {
-            const id = Number(params.get('id'));
+        // this.routeSubscription = this.route.paramMap.subscribe((params) => {
+        //     const id = Number(params.get('id'));
 
-            this.postSubscription = this.store.pipe(select(getPostById(id))).subscribe((res) => {
-                this.post = res;
+        //     this.postSubscription = this.store.pipe(select(getPostById(id))).subscribe((res) => {
+        //         this.post = res;
 
-                this.createForm();
-            });
-        });
+        //         this.createForm();
+        //     });
+        // });
+
+        this.createForm();
+        this.getPostById();
     }
 
     ngOnDestroy(): void {

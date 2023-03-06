@@ -28,4 +28,8 @@ export class PostService {
     delete(post: Post): Observable<any> {
         return this.httpClient.delete<any>(`http://localhost:3000/posts/${post.id}`);
     }
+
+    getPostById(post: Post): Observable<Post> {
+        return this.httpClient.get<Post>(`http://localhost:3000/posts/${post.id}`);
+    }
 }

@@ -10,9 +10,10 @@ import { PostRoutingModule } from './post-routing.module';
 import { PostEffects } from './state/post.effects';
 import { postReducer } from './state/post.reducer';
 import { POST_STATE_NAME } from './state/post.selectors';
+import { SinglePostComponent } from './single-post/single-post.component';
 
 @NgModule({
-    declarations: [PostListComponent, AddPostComponent, EditPostComponent],
+    declarations: [PostListComponent, AddPostComponent, EditPostComponent, SinglePostComponent],
     imports: [
         CommonModule,
         ReactiveFormsModule,
