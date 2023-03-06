@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
+import { AuthGuard } from './shared/services/auth.guar';
 
 const routes: Routes = [
     {
@@ -13,11 +14,13 @@ const routes: Routes = [
     },
     {
         path: 'counter',
-        loadChildren: async () => (await import('./counter/counter.module')).CounterModule
+        loadChildren: async () => (await import('./counter/counter.module')).CounterModule,
+        canActivate: [AuthGuard]
     },
     {
         path: 'post',
-        loadChildren: async () => (await import('./post/post.module')).PostModule
+        loadChildren: async () => (await import('./post/post.module')).PostModule,
+        canActivate: [AuthGuard]
     },
     {
         path: '',
