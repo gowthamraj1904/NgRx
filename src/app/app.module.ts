@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,6 +11,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loading-spinner.component';
 import { AuthEffects } from './auth/state/auth.effects';
 import { appReducer } from './state/app.reducer';
+import { AuthInterceptor } from './shared/services/auth-token.interceptors';
 
 @NgModule({
     declarations: [AppComponent, HomeComponent, HeaderComponent, LoadingSpinnerComponent],
@@ -30,7 +31,7 @@ import { appReducer } from './state/app.reducer';
         }),
         StoreDevtoolsModule.instrument()
     ],
-    providers: [],
+    providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
     bootstrap: [AppComponent]
 })
 export class AppModule {}
