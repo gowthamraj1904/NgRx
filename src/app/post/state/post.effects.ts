@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { PostService } from '../post.service';
-import { mergeMap, map } from 'rxjs/operators';
+import { mergeMap, map, switchMap } from 'rxjs/operators';
 import { Post } from './post.model';
 import { PostActionTypes } from './post.action-types';
 
@@ -11,6 +11,8 @@ export class PostEffects {
 
     load$ = createEffect(() => this.load);
     addNew$ = createEffect(() => this.addNew);
+    update$ = createEffect(() => this.update);
+    delete$ = createEffect(() => this.delete);
 
     load(): Actions {
         return this.actions$.pipe(
@@ -32,6 +34,33 @@ export class PostEffects {
                 return this.postService.addNew(action.post).pipe(
                     map((post) => {
                         return PostActionTypes.addNewSuccess({ post });
+                    })
+                );
+            })
+        );
+    }
+
+    update(): Actions {
+        return this.actions$.pipe(
+            ofType(PostActionTypes.updatePost),
+            switchMap((action) => {
+                return this.postService.update(action.post).pipe(
+                    map((post) => {
+                        return PostActionTypes.updatePostSuccess({ post: action.post });
+                    })
+                );
+            })
+        );
+    }
+
+    delete(): Actions {
+        return this.actions$.pipe(
+            ofType(PostActionTypes.deletePost),
+            switchMap((action) => {
+                return this.postService.delete(action.post).pipe(
+                    map((post) => {
+                        console.log(post);
+                        return PostActionTypes.deletePostSuccess({ post: action.post });
                     })
                 );
             })

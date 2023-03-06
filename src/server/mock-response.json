@@ -15,16 +15,6 @@
       "description": "Post 2 Description"
     },
     {
-      "id": 3,
-      "title": "Post 3",
-      "description": "Post 3 Description"
-    },
-    {
-      "title": "Post 4",
-      "description": "Post 4 Description",
-      "id": 4
-    },
-    {
       "title": "Post 5",
       "description": "Post 5 Description",
       "id": 5

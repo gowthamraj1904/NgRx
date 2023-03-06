@@ -18,4 +18,14 @@ export class PostService {
             headers: { 'Content-Type': 'application/json' }
         });
     }
+
+    update(post: Post): Observable<any> {
+        return this.httpClient.patch<any>('http://localhost:3000/posts', post, {
+            headers: { 'Content-Type': 'application/json' }
+        });
+    }
+
+    delete(post: Post): Observable<any> {
+        return this.httpClient.delete<any>(`http://localhost:3000/posts/${post.id}`);
+    }
 }
